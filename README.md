@@ -6,6 +6,10 @@
 - /book
 - /s 泛搜
 - /jaxedit
-- /webbud ???
+- /webbud ??? rename to /bud bud.qing.tk
 - /poem
+
+- /xuexi xue.qing.tk
+- /mathcode mc.qing.tk
+- /music music.qing.tk yy.qing.tk
 - 
