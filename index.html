@@ -1,41 +1,92 @@
 <!doctype html>
 <html lang="zh">
+
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<!-- <link rel="icon" type="image/icon" href="/favicon.ico" /> -->
-	<link rel="stylesheet" href="stylesheets/style.css"/>
-	<link rel="stylesheet" href="stylesheets/grid.css"/>
+	<link rel="stylesheet" href="stylesheets/style.css" />
 	<title>纯情部落</title>
-	<script defer src="https://cloud.umami.is/script.js" data-website-id="6c271546-5c8e-40db-be7d-b2667d3d93de"></script>
+	<script defer src="https://cloud.umami.is/script.js"
+		data-website-id="6c271546-5c8e-40db-be7d-b2667d3d93de"></script>
 </head>
 
 <body>
+<canvas id="bg"></canvas>
+<script>
+const canvas = document.getElementById("bg");
+const ctx = canvas.getContext("2d");
+
+function resize(){
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener("resize", resize);
+
+// 创建 12 个圆
+const circles = Array.from({length:12}, ()=>({
+  x: Math.random()*canvas.width,
+  y: Math.random()*canvas.height,
+  r: 20 + Math.random()*40,       // 最大半径
+  phase: Math.random()*Math.PI*2,
+  speed: 0.01 + Math.random()*0.02,
+  hue: Math.random()*360
+}));
+
+function draw(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  circles.forEach(c=>{
+    c.phase += c.speed;
+
+    // 半径在 0 和 r 之间周期性变化
+    const radius = (Math.sin(c.phase) * 0.5 + 0.5) * c.r;
+
+    // 漂移位置
+    const dx = Math.sin(c.phase*1.3) * 50;
+    const dy = Math.cos(c.phase*1.7) * 50;
+
+    // 色相循环
+    c.hue = (c.hue + 0.5) % 360;
+
+    ctx.beginPath();
+    ctx.strokeStyle = `hsla(${c.hue}, 80%, 50%, 0.6)`; // 半透明
+    ctx.lineWidth = 2;
+    ctx.arc(c.x+dx, c.y+dy, radius, 0, Math.PI*2);
+    ctx.stroke();
+  });
+}
+
+function animate(){
+  draw();
+  requestAnimationFrame(animate);
+}
+animate();
+</script>
 	<header style="background-color:#dff">
-		<div style="float:left;">
-			<a href="https://qing.tk"><img src="img/qingtk.png" alt="纯情部落"/></a><br>
+		<div>
+			<a href="https://qing.tk"><img src="img/qingtk.png" alt="纯情部落" /></a>
 		</div>
-	<nav>
-		<a href="https://gitter.im/2293/ppmm" target="_blank">ppmm</a> 
+	</header>
+		<a style="border-top:2px dashed hsl(0, 100%, 50%)" href="/s">泛搜</a>
+		<a style="border-top:2px dashed hsl(36, 100%, 50%)" href="//xue.qing.tk">学习</a>
+		<a style="border-top:2px dashed hsl(72, 100%, 50%)" href="/tinycode/">TinyCode</a>
+		<a style="border-top:2px dashed hsl(108, 100%, 50%)" href="/bookmarks/">bookmarks</a>
+		<a style="border-top:2px dashed hsl(144, 100%, 50%)" href="/webbud">webbud</a>
+		<a style="border-top:2px dashed hsl(180, 100%, 50%)" href="/jaxedit">JaxEdit</a>
+		<a style="border-top:2px dashed hsl(216, 100%, 50%)" href="/reference/">快速参考</a>
+		<a style="border-top:2px dashed hsl(252, 100%, 50%)" href="/bing-wallpaper/">必应壁纸</a>
+		<a style="border-top:2px dashed hsl(288, 100%, 50%)" href="/math-wiki-guide">数学维基导读</a>
+		<a style="border-top:2px dashed hsl(324, 100%, 50%)" href="https://gitter.im/2293/ppmm" target="_blank">ppmm</a>
+
 		<!--a href="#/music">音乐</a> <a href="#/poem">诗歌</a> <a href="#/video">视频</a> <a href="/books">图书</a> <a
-				href="/dev">编程</a-->
-		<a href="/s">泛搜</a>
+				href="/dev">编程</a>
 		<a href="/txt">TXT小说</a>
 		<a href="/software/">软件名录</a>
-		<a href="/math-wiki-guide">数学维基导读</a>
-		<a href="/tinycode/">TinyCode</a>
-		<a href="/bookmarks/">bookmarks</a>
-		<a href="/webbud">webbud</a> 
-		<br/>
-		<a href="/jaxedit">JaxEdit</a>
-		<a href="/maze-generator">迷宫</a> 
-		<a href="/reference/">快速参考</a>
-		<a href="/bing-wallpaper/">必应壁纸</a>
-		<a href="/ztype/">zType飞机大战打字游戏</a>
+		<a href="/maze-generator">迷宫</a>
+		<a href="/ztype/">zType飞机大战打字游戏</a-->
 	</nav>
-	</header>
-
 	<div class="grid">
 		<div class="item"></div>
 		<div class="item"></div>
@@ -49,14 +100,15 @@
 		<div class="item"></div>
 	</div>
 
-<div id="friendsLinks" style="border:1px dashed rgb(155, 202, 123)">
-<a href="https://a-boy.github.io">a-boy.github.io</a>  <a href="https://2293.github.io">2293.github.io</a>	
-</div>
-----<br>
-<footer>
-	 @2022~2025 <span style="color: chartreuse;"><strong>纯情部落
-		 <a href="https://qing.tk">qing.tk</a></strong></span>
-	<a href="mailto: a_boy@live.com">Email</a>
-</footer>
+	<div id="friendsLinks" style="border:1px dashed rgb(155, 702, 123)">
+		<a href="https://a-boy.github.io">a-boy.github.io</a> <a href="https://2293.github.io">2293.github.io</a>
+	</div>
+	----<br>
+	<footer>
+		@7022~7025 <span style="color: chartreuse;"><strong>纯情部落
+				<a href="https://qing.tk">qing.tk</a></strong></span>
+		<a href="mailto: a_boy@live.com">Email</a>
+	</footer>
 </body>
+
 </html>
