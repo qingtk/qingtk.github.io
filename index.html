@@ -13,80 +13,81 @@
 </head>
 
 <body>
-<canvas id="bg"></canvas>
-<script>
-const canvas = document.getElementById("bg");
-const ctx = canvas.getContext("2d");
+	<canvas id="bg"></canvas>
+	<script>
+		const canvas = document.getElementById("bg");
+		const ctx = canvas.getContext("2d");
 
-function resize(){
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-}
-resize();
-window.addEventListener("resize", resize);
+		function resize() {
+			canvas.width = window.innerWidth;
+			canvas.height = window.innerHeight;
+		}
+		resize();
+		window.addEventListener("resize", resize);
 
-// 创建 12 个圆
-const circles = Array.from({length:12}, ()=>({
-  x: Math.random()*canvas.width,
-  y: Math.random()*canvas.height,
-  r: 20 + Math.random()*40,       // 最大半径
-  phase: Math.random()*Math.PI*2,
-  speed: 0.01 + Math.random()*0.02,
-  hue: Math.random()*360
-}));
+		// 创建 12 个圆
+		const circles = Array.from({ length: 12 }, () => ({
+			x: Math.random() * canvas.width,
+			y: Math.random() * canvas.height,
+			r: 20 + Math.random() * 40,       // 最大半径
+			phase: Math.random() * Math.PI * 2,
+			speed: 0.01 + Math.random() * 0.02,
+			hue: Math.random() * 360
+		}));
 
-function draw(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  circles.forEach(c=>{
-    c.phase += c.speed;
+		function draw() {
+			ctx.clearRect(0, 0, canvas.width, canvas.height);
+			circles.forEach(c => {
+				c.phase += c.speed;
 
-    // 半径在 0 和 r 之间周期性变化
-    const radius = (Math.sin(c.phase) * 0.5 + 0.5) * c.r;
+				// 半径在 0 和 r 之间周期性变化
+				const radius = (Math.sin(c.phase) * 0.5 + 0.5) * c.r;
 
-    // 漂移位置
-    const dx = Math.sin(c.phase*1.3) * 50;
-    const dy = Math.cos(c.phase*1.7) * 50;
+				// 漂移位置
+				const dx = Math.sin(c.phase * 1.3) * 50;
+				const dy = Math.cos(c.phase * 1.7) * 50;
 
-    // 色相循环
-    c.hue = (c.hue + 0.5) % 360;
+				// 色相循环
+				c.hue = (c.hue + 0.5) % 360;
 
-    ctx.beginPath();
-    ctx.strokeStyle = `hsla(${c.hue}, 80%, 50%, 0.6)`; // 半透明
-    ctx.lineWidth = 2;
-    ctx.arc(c.x+dx, c.y+dy, radius, 0, Math.PI*2);
-    ctx.stroke();
-  });
-}
+				ctx.beginPath();
+				ctx.strokeStyle = `hsla(${c.hue}, 80%, 50%, 0.6)`; // 半透明
+				ctx.lineWidth = 2;
+				ctx.arc(c.x + dx, c.y + dy, radius, 0, Math.PI * 2);
+				ctx.stroke();
+			});
+		}
 
-function animate(){
-  draw();
-  requestAnimationFrame(animate);
-}
-animate();
-</script>
-	<header style="background-color:#dff">
-		<div>
+		function animate() {
+			draw();
+			requestAnimationFrame(animate);
+		}
+		animate();
+	</script>
+	<header style="background-color:#fdffdd">
+		<div style="float:left;">
 			<a href="https://qing.tk"><img src="img/qingtk.png" alt="纯情部落" /></a>
 		</div>
-	</header>
-		<a style="border-top:2px dashed hsl(324, 100%, 50%)" href="https://gitter.im/2293/ppmm" target="_blank">ppmm</a>
+		<nav>
+			~ <a style="border:2px dashed hsl(72, 100%, 50%)" href="/tinycode/">TinyCode</a>
+			<!-- <a style="border-bottom:2px dashed hsl(324, 100%, 50%)" href="https://gitter.im/2293/ppmm" target="_blank">ppmm</a>
+		<a style="border-bottom:2px dashed hsl(230, 100%, 50%)" href="#">abot</a> -->
+			<a style="border:2px dashed hsl(144, 100%, 50%)" href="/webbud">webbud</a>
+			<a style="border:2px dashed hsl(0, 100%, 50%)" href="/s">泛搜</a>
+			<a style="border:2px dashed hsl(33, 100%, 50%)" href="https://md.qing.tk">QingMD</a>
+			<a style="border:2px dashed hsl(180, 100%, 50%)" href="/jaxedit">JaxEdit</a>
+			<a style="border:2px dashed hsl(200, 100%, 50%)" href="/reference/">快速参考</a>
+			<a style="border:2px dashed hsl(252, 100%, 50%)" href="/bing-wallpaper/">必应壁纸</a>
+			<a style="border:2px dashed hsl(108, 100%, 50%)" href="/bookmarks/">bookmarks</a>
 
-		<!-- <a style="border-top:2px dashed hsl(230, 100%, 50%)" href="#">abot</a> -->
-		<a style="border-top:2px dashed hsl(72, 100%, 50%)" href="/tinycode/">TinyCode</a>
-		<a style="border-top:2px dashed hsl(144, 100%, 50%)" href="/webbud">webbud</a>
-		<a style="border-top:2px dashed hsl(0, 100%, 50%)" href="/s">泛搜</a>
-		<a style="border-top:2px dashed hsl(180, 100%, 50%)" href="/jaxedit">JaxEdit</a>
-		<a style="border-top:2px dashed hsl(216, 100%, 50%)" href="/reference/">快速参考</a>
-		<a style="border-top:2px dashed hsl(252, 100%, 50%)" href="/bing-wallpaper/">必应壁纸</a>
-		<a style="border-top:2px dashed hsl(108, 100%, 50%)" href="/bookmarks/">bookmarks</a>
-
-		<a href="#/music">音乐</a> <a href="#/poem">诗歌</a> <a href="/maze-generator">迷宫</a><a href="#/video">视频</a> 
+			<!-- <a href="#/music">音乐</a> <a href="#/poem">诗歌</a> <a href="/maze-generator">迷宫</a><a href="#/video">视频</a> 
 		 <a href="/dev">编程</a>
 		<a href="/software/">软件名录</a>
-		<a href="/txt">TXT小说</a>
+		<a href="/txt">TXT小说</a> -->
 
-		
-	</nav>
+		</nav>
+	</header>
+
 	<div class="grid">
 		<div class="item"></div>
 		<div class="item"></div>
@@ -107,9 +108,10 @@ animate();
 	</div>
 	----<br>
 	<footer>
-		@2022~2025 <span style="color: chartreuse;"><strong>纯情部落
+		@2022~2026 <span style="color: #7fff00;"><strong>纯情部落
 				<a href="https://qing.tk">qing.tk</a></strong></span>
-		<a href="https://mapmyvisitors.com/web/1c07b"  title="Visit tracker"><img src="https://mapmyvisitors.com/map.png?d=VwMJpNfSRvymxWpJ1PNkRBvE9Y8CcuHGeT4blD1IzLc&cl=ffffff" /></a>
+		<a href="https://mapmyvisitors.com/web/1c07b" title="Visit tracker"><img
+				src="https://mapmyvisitors.com/map.png?d=VwMJpNfSRvymxWpJ1PNkRBvE9Y8CcuHGeT4blD1IzLc&cl=ffffff" /></a>
 	</footer>
 </body>
 
